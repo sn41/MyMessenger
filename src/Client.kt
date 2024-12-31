@@ -7,24 +7,24 @@ import java.net.Socket
         // Определяем номер порта, на котором нас ожидает сервер для ответа
         val portNumber = 1777
         val adr = "127.0.0.1"
-        println("Start!")
+        println("Client is started!")
 
         val socket = Socket(adr, portNumber)
         val bufferedReader = BufferedReader(InputStreamReader(socket.getInputStream()))
         val printWriter = PrintWriter(socket.getOutputStream(), true)
 
         while(true){
-            //чтение клавиатуры
-            val str = readLine()
-
-            if(str != "fin"){
+            //читаем клавиатуры
+            val str = readlnOrNull()
+            if(str != "fin" && str!=null){
                 // Отправляем сообщение на сервер
                 printWriter.println(str)
             }else{
+                // Завершаем сеанс
+                printWriter.println("END")
                 break
             }
         }
-
         //закрываем
         bufferedReader.close()
         printWriter.close()

@@ -15,15 +15,8 @@ fun main(args: Array<String>) {
         // Входим в бесконечный цикл - ожидаем соединения
         while (true) {
             println("Waiting for a connection on $port")
-
             // Получив соединение начинаем работать с сокетом
             val fromClientSocket = servSocket.accept()
-
-            // Работаем с потоками ввода-вывода,
-            // используем блок use автоматически завершающиий потоки ввода-вывода
-            // при выходе из блока.
-            // Потоки ввода-вывода должны наследовать интерфейс AutoCloseable
-
             fromClientSocket
                 .use { localSocket ->
                     PrintWriter(localSocket.getOutputStream(), true)
@@ -31,22 +24,17 @@ fun main(args: Array<String>) {
                             BufferedReader(InputStreamReader(localSocket.getInputStream()))
                                 .use { bufferedReader ->
 
-
                                     // Читаем сообщения от клиента
                                     while (true) {
                                         val line = bufferedReader.readLine()
-                                        // Печатаем сообщение
-                                        println(line)
 
-                                        // Ожидаем сообщение от клиента с содержанием "bye" для прекращения цикла обмена.
+                                        // Ожидаем сообщение от клиента с содержанием "END" для прекращения цикла обмена.
                                         if (line != "END") {
-                                            // Посылаем клиенту ответ
-                                            val response = ""
-
-                                            printWriter.println(response)
+                                            // Если это не сообщение для завершения сеанса, печатаем сообщение
+                                            println(line)
                                         } else {
                                             // Если получено END - завершаем цикл обмена.
-                                            // Отправляем клиенту сообщение окончания сеанса "END".
+                                            // Отправляем клиенту подтверждение окончания сеанса "END".
                                             printWriter.println("END")
                                             // Завершаем цикл
                                             break
