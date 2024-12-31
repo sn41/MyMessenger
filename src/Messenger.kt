@@ -18,12 +18,14 @@ fun main(args: Array<String>) {
         return
     }
 
-
+    var finish = false
     val client = Client(address, port)
     val server = Server(port)
 
     //Запуск
     server.start()
     client.start()
-    //Запуск клиента
+    //ожидаем завершения
+    client.join()
+//    server.terminate()
 }

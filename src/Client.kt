@@ -1,12 +1,15 @@
 import java.io.PrintWriter
 import java.net.Socket
-class Client(val adr: String = "127.0.0.1", val portNumber: Int = 1777):Thread()  {
+
+class Client(
+    val adr: String = "127.0.0.1",
+    val portNumber: Int = 1777
+) : Thread() {
     override fun run() {
         // Определяем номер порта, на котором нас ожидает сервер для ответа
         println("Client is started!")
 
         val clientSocket = Socket(adr, portNumber)
-
         clientSocket.use { socket ->
             PrintWriter(socket.getOutputStream(), true).use { printWriter ->
                 while (true) {
@@ -23,6 +26,7 @@ class Client(val adr: String = "127.0.0.1", val portNumber: Int = 1777):Thread()
                 }
             }
         }
+
         println("Client is finished")
     }
 }
