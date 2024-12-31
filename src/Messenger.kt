@@ -18,11 +18,12 @@ fun main(args: Array<String>) {
         return
     }
 
-    //Запуск сервера
-    server(port)
 
+    val client = Client(address, port)
+    val server = Server(port)
+
+    //Запуск
+    server.start()
+    client.start()
     //Запуск клиента
-
-
-
 }
