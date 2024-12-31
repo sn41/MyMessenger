@@ -3,7 +3,8 @@ import java.net.Socket
 
 class Client(
     val adr: String = "127.0.0.1",
-    val portNumber: Int = 1777
+    val portNumber: Int = 1777,
+    val getMessage:()->String
 ) : Thread() {
     override fun run() {
         // Определяем номер порта, на котором нас ожидает сервер для ответа
@@ -14,7 +15,7 @@ class Client(
             PrintWriter(socket.getOutputStream(), true).use { printWriter ->
                 while (true) {
                     //читаем клавиатуру
-                    val str = readlnOrNull()
+                    val str = getMessage()
                     if (str != "fin" && str != null) {
                         // Отправляем сообщение на сервер
                         printWriter.println(str)

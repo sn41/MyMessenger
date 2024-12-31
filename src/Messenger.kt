@@ -13,19 +13,23 @@ fun main(args: Array<String>) {
         1777
     }
 
-    if(address == "Help" || address == "h") {
+    if (address == "Help" || address == "h") {
         println("формат вызова программы: Messenger A P, где А - адрес компьютера собеседника, P - номер порта")
         return
     }
 
-    var finish = false
-    val client = Client(address, port)
-    val server = Server(port)
+    val client = Client(address, port) {
+        print(">")
+        readlnOrNull() ?: ""
+    }
+
+    val server = Server(port){
+        println("#$it")
+    }
 
     //Запуск
     server.start()
     client.start()
     //ожидаем завершения
     client.join()
-//    server.terminate()
 }

@@ -4,7 +4,7 @@ import java.io.InputStreamReader
 import java.io.PrintWriter
 import java.net.ServerSocket
 
-class Server(val port: Int = 1777) : Thread() {
+class Server(val port: Int = 1777, val outMessage:(String)->Unit) : Thread() {
 
     override fun run() {
         try {
@@ -23,7 +23,7 @@ class Server(val port: Int = 1777) : Thread() {
                             // Ожидаем сообщение от клиента с содержанием "END" для прекращения цикла обмена.
                             if (line != "END") {
                                 // Если это не сообщение для завершения сеанса, печатаем сообщение
-                                println("#$line")
+                                outMessage(line)
                             } else {
                                 break@loop
                             }
