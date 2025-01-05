@@ -19,7 +19,6 @@ fun main(args: Array<String>) {
     }
 
     val client = Client(address, port) {
-        print(">")
         readlnOrNull() ?: ""
     }
 
